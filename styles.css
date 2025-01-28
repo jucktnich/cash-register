@@ -1,0 +1,89 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+.cash-register {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.button-container button, .reset-button, .finish-button {
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.button-container button:hover, .reset-button:hover, .finish-button:hover {
+    background-color: #0056b3;
+}
+.reset-button, .finish-button {
+    margin-top: 20px;
+    width: 48%;
+}
+.empty-cart {
+    color: grey;
+}
+.item-list {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+.item:hover:not(.selected) {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+.selected {
+    background-color: #d1ecf1;
+}
+.edit-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 10px;
+}
+.edit-controls button {
+    min-width: 35px;
+    padding: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #f1f1f1;
+    border: none;
+    border-radius: 17.5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.edit-controls :hover {
+    background-color: #d3d3d3;
+}
+/*.edit-controls .plus:hover {
+    color: #009b24;
+}
+.edit-controls .minus:hover {
+    color: #a30010;
+}*/
+.total {
+    margin-top: 20px;
+    font-weight: bold;
+}

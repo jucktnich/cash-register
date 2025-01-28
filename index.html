@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasse</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="cash-register">
+        <h2>Kasse</h2>
+
+        <div class="button-container" id="button-container">
+            <!-- Buttons will be added dynamically -->
+        </div>
+
+        <div class="item-list" id="item-list">
+            <h3>Warenkorb:</h3>
+        </div>
+
+        <div class="edit-controls" id="edit-controls">
+            <button id="increment-button" class="plus">+</button>
+            <button id="decrement-button" class="minus">-</button>
+        </div>
+
+        <div class="total" id="total-price">Gesamt: 0.00€</div>
+        <div style="display: flex; justify-content: space-between;">
+            <button class="reset-button" id="reset-button">Zurücksetzen</button>
+            <button class="finish-button" id="finish-button">Abschließen</button>
+        </div>
+    </div>
+
+    <script src="./app.js"></script>
+</body>
+</html>
