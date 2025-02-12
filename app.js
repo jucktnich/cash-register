@@ -44,6 +44,7 @@ function addItemToCart(item) {
 function deleteItemFromCart(item) {
     if (!item.id) item = items.filter(curItem => curItem.id.includes(item))[0];
     const cartItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
+    if (cartItemIndex < 0) return;
 
     const selectedItem = cart[cartItemIndex];
     if (selectedItem.quantity > 1) {
