@@ -20,21 +20,40 @@ let cart = [];
 let selectedItemIndex = null;
 
 function addItemToCart(item) {
+    if (!item.id) item = items.filter(curItem => curItem.id.includes(item))[0];
     const cartItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
 
     if (cartItemIndex > -1) {
         // If item exists in cart, increment the quantity and move it to the end
         cart[cartItemIndex].quantity++;
         selectedItemIndex = cartItemIndex;
-        /*const cartItem = cart.splice(cartItemIndex, 1)[0];
-        cart.push(cartItem);*/
     } else {
         // If item does not exist in cart, add it
         cart.push({ ...item, quantity: 1 });
         selectedItemIndex = cart.length - 1;
     }
 
-    //selectedItemIndex = cart.length - 1;
+    if(item.includes) {
+        item.includes.forEach(addItemToCart);
+        selectedItemIndex -= item.includes.length;
+    }
+
+    updateCartDisplay();
+}
+
+function deleteItemFromCart(item) {
+    if (!item.id) item = items.filter(curItem => curItem.id.includes(item))[0];
+    const cartItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
+
+    const selectedItem = cart[cartItemIndex];
+    if (selectedItem.quantity > 1) {
+        selectedItem.quantity--;
+    } else {
+        cart.splice(cartItemIndex, 1);
+        selectedItemIndex = null;
+    }
+
+    if(item.includes) item.includes.forEach(deleteItemFromCart);
 
     updateCartDisplay();
 }
@@ -70,21 +89,13 @@ function updateCartDisplay() {
 
 incrementButton.addEventListener('click', () => {
     if (selectedItemIndex !== null) {
-        cart[selectedItemIndex].quantity++;
-        updateCartDisplay();
+        addItemToCart(cart[selectedItemIndex].id)
     }
 });
 
 decrementButton.addEventListener('click', () => {
     if (selectedItemIndex !== null) {
-        const selectedItem = cart[selectedItemIndex];
-        if (selectedItem.quantity > 1) {
-            selectedItem.quantity--;
-        } else {
-            cart.splice(selectedItemIndex, 1);
-            selectedItemIndex = null;
-        }
-        updateCartDisplay();
+        deleteItemFromCart(cart[selectedItemIndex])
     }
 });
 
@@ -132,7 +143,7 @@ document.getElementById("login-button").addEventListener('click', async () => {
     // Create buttons for each item
     items.forEach(item => {
         const button = document.createElement('button');
-        button.textContent = `${item.name} - ${(item.price / 100).toFixed(2)}€`;
+        button.textContent = `${item.name} | ${(item.price / 100).toFixed(2)}€`;
         button.addEventListener('click', () => addItemToCart(item));
         buttonContainer.appendChild(button);
     });
