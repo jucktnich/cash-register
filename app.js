@@ -1,9 +1,11 @@
-const items = [
-    { id: 'fries', name: 'Pommes', price: 500 },
-    { id: 'coke', name: 'Cola', price: 250 },
-    { id: 'burger', name: 'Burger', price: 800 },
-    { id: 'ice-cream', name: 'Eis', price: 400 }
-];
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const supabaseUrl = 'https://supabase.abi-marbach.de'
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ewogICJyb2xlIjogImFub24iLAogICJpc3MiOiAic3VwYWJhc2UiLAogICJpYXQiOiAxNzM4NjIzNjAwLAogICJleHAiOiAxODk2MzkwMDAwCn0.Q6MJno9HxtTxOOkajZ72SrYRRJoEtwupgMBTKJjPJUo'
+
+const supabase = await createClient(supabaseUrl, supabaseKey);
+
+let userID, items;
 
 const buttonContainer = document.getElementById('button-container');
 const itemList = document.getElementById('item-list');
@@ -16,14 +18,6 @@ const decrementButton = document.getElementById('decrement-button');
 
 let cart = [];
 let selectedItemIndex = null;
-
-// Create buttons for each item
-items.forEach(item => {
-    const button = document.createElement('button');
-    button.textContent = `${item.name} - ${(item.price/100).toFixed(2)}€`;
-    button.addEventListener('click', () => addItemToCart(item));
-    buttonContainer.appendChild(button);
-});
 
 function addItemToCart(item) {
     const cartItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
@@ -55,7 +49,7 @@ function updateCartDisplay() {
         if (selectedItemIndex === index) {
             itemElement.classList.add('selected');
         }
-        itemElement.innerHTML = `<span>${cartItem.quantity}x ${cartItem.name}</span><span>${(cartItem.price/100 * cartItem.quantity).toFixed(2)}€</span>`;
+        itemElement.innerHTML = `<span>${cartItem.quantity}x ${cartItem.name}</span><span>${(cartItem.price / 100 * cartItem.quantity).toFixed(2)}€</span>`;
         itemElement.addEventListener('click', () => {
             selectedItemIndex = index;
             updateCartDisplay();
@@ -71,7 +65,7 @@ function updateCartDisplay() {
 
     // Update the total price
     const total = cart.reduce((sum, cartItem) => sum + cartItem.price * cartItem.quantity, 0);
-    totalPriceElement.textContent = `Gesamt: ${(total/100).toFixed(2)}€`;
+    totalPriceElement.textContent = `Gesamt: ${(total / 100).toFixed(2)}€`;
 }
 
 incrementButton.addEventListener('click', () => {
@@ -102,12 +96,48 @@ resetButton.addEventListener('click', () => {
     }
 });
 
-finishButton.addEventListener('click', () => {
+finishButton.addEventListener('click', async () => {
     if (confirm('Verkauf abschließen?')) {
-        cart = [];
-        selectedItemIndex = null;
-        updateCartDisplay();
+        const { error } = await supabase
+            .from('sales')
+            .insert({ created_by: userID, time_of_sale: new Date(), products: cart })
+        if (error) {
+            alert('Verkauf konnte nicht abgeschlossen werden, versuche es erneut');
+        } else {
+            cart = [];
+            selectedItemIndex = null;
+            updateCartDisplay();
+        }
     }
 });
 
-updateCartDisplay();
+
+document.getElementById("login-button").addEventListener('click', async () => {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const { data: user } = await supabase.auth.signInWithPassword({
+        email: username + '@abi-marbach.de',
+        password: password,
+    });
+
+    userID = user.user.id;
+
+    const { data: itemsDownload } = await supabase
+        .from('items')
+        .select()
+
+    items = itemsDownload;
+
+    // Create buttons for each item
+    items.forEach(item => {
+        const button = document.createElement('button');
+        button.textContent = `${item.name} - ${(item.price / 100).toFixed(2)}€`;
+        button.addEventListener('click', () => addItemToCart(item));
+        buttonContainer.appendChild(button);
+    });
+
+    updateCartDisplay();
+    document.getElementById('login-container').style.display = 'none';
+    document.getElementById('cash-register').style.display = 'block';
+})

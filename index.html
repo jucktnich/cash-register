@@ -7,29 +7,37 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <div class="cash-register">
-        <h2>Kasse</h2>
-
-        <div class="button-container" id="button-container">
-            <!-- Buttons will be added dynamically -->
+    <div class="main">
+        <div class="login-container" id="login-container">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Nutzer">
+            <input type="password" id="password" placeholder="Passwort">
+            <button class="login-button" id="login-button">Login</button>
         </div>
-
-        <div class="item-list" id="item-list">
-            <h3>Warenkorb:</h3>
-        </div>
-
-        <div class="edit-controls" id="edit-controls">
-            <button id="increment-button" class="plus">+</button>
-            <button id="decrement-button" class="minus">-</button>
-        </div>
-
-        <div class="total" id="total-price">Gesamt: 0.00€</div>
-        <div style="display: flex; justify-content: space-between;">
-            <button class="reset-button" id="reset-button">Zurücksetzen</button>
-            <button class="finish-button" id="finish-button">Abschließen</button>
+        <div class="cash-register" id="cash-register" style="display: none;">
+            <h2>Kasse</h2>
+    
+            <div class="button-container" id="button-container">
+                <!-- Buttons will be added dynamically -->
+            </div>
+    
+            <div class="item-list" id="item-list">
+                <h3>Warenkorb:</h3>
+            </div>
+    
+            <div class="edit-controls" id="edit-controls">
+                <button id="increment-button" class="plus">+</button>
+                <button id="decrement-button" class="minus">-</button>
+            </div>
+    
+            <div class="total" id="total-price">Gesamt: 0.00€</div>
+            <div style="display: flex; justify-content: space-between;">
+                <button class="reset-button" id="reset-button">Zurücksetzen</button>
+                <button class="finish-button" id="finish-button">Abschließen</button>
+            </div>
         </div>
     </div>
 
-    <script src="./app.js"></script>
+    <script src="./app.js" type="module"></script>
 </body>
 </html>

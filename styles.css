@@ -3,7 +3,7 @@ body {
     margin: 20px;
     touch-action: manipulation;
 }
-.cash-register {
+.main {
     max-width: 400px;
     margin: auto;
     padding: 20px;
@@ -11,13 +11,28 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+h2 {
+    margin: 0 0 20px 0;
+}
+
+.login-container input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 0 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.login-button {
+    width: 100%;
+}
+
 .button-container {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 20px;
 }
-.button-container button, .reset-button, .finish-button {
+.button-container button, .reset-button, .finish-button, .login-button {
     padding: 10px;
     font-size: 16px;
     border: none;
@@ -27,7 +42,7 @@ body {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-.button-container button:hover, .reset-button:hover, .finish-button:hover {
+.button-container button:hover, .reset-button:hover, .finish-button:hover, .login-button:hover {
     background-color: #0056b3;
 }
 .reset-button, .finish-button {
