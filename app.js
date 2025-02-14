@@ -23,20 +23,19 @@ function addItemToCart(item) {
     if (!item.id) item = items.filter(curItem => curItem.id.includes(item))[0];
     const cartItemIndex = cart.findIndex(cartItem => cartItem.id === item.id);
 
+    let scopedSelectedItemIndex;
     if (cartItemIndex > -1) {
         // If item exists in cart, increment the quantity and move it to the end
         cart[cartItemIndex].quantity++;
-        selectedItemIndex = cartItemIndex;
+        scopedSelectedItemIndex = cartItemIndex;
     } else {
         // If item does not exist in cart, add it
         cart.push({ ...item, quantity: 1 });
-        selectedItemIndex = cart.length - 1;
+        scopedSelectedItemIndex = cart.length - 1;
     }
 
-    if(item.includes) {
-        item.includes.forEach(addItemToCart);
-        selectedItemIndex -= item.includes.length;
-    }
+    if(item.includes) item.includes.forEach(addItemToCart);
+    selectedItemIndex = scopedSelectedItemIndex;
 
     updateCartDisplay();
 }
