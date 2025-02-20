@@ -138,7 +138,7 @@ document.getElementById("login-button").addEventListener('click', async () => {
         .from('items')
         .select()
 
-    items = itemsDownload;
+    items = itemsDownload.sort((a, b) => a.place - b.place);
 
     // Create buttons for each item
     items.forEach(item => {
